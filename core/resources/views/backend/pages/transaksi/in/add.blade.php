@@ -84,7 +84,7 @@
                         </div>
                         {{-- <div class="alert alert-warning">Pastikan Data Sudah Sesuai sebelum disimpan !</div> --}}
                         <div class="card-body" id="render_table">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="preview-table">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -95,7 +95,7 @@
                                         <th>Dpp (Rp)</th>
                                         <th>Ppn (10%)</th>
                                         <th>Total (Rp)</th>
-                                        <th>Aksi</th>
+                                        <th id="th-aksi">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -124,7 +124,7 @@
                                         <td>{{ number_format($item->harga_in,2,',','.') }}</td>
                                         <td>{{ number_format($ppn,2,',','.') }}</td>
                                         <td>{{ number_format($item->harga_in + $ppn,2,',','.') }}</td>
-                                        <td>
+                                        <td id="td-aksi">
                                             <button type="button" id="{{ $item->id }}" onclick="hapus(this)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                                             <button type="button" id="{{ $item->id }}" onclick="edit(this)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                                         </td>
@@ -137,7 +137,15 @@
                                         <th>{{ number_format($total_harga,2,',','.') }}</th>
                                         <th>{{ number_format($total_harga_ppn,2,',','.') }}</th>
                                         <th>{{ number_format($total_total,2,',','.') }}</th>
-                                        <th></th>
+                                        <th id="tf-aksi">
+                                            @if (count($barang_masuk) > 0)
+                                            <form action="{{ route('in.store.all') }}" id="form-add-all" method="POST">
+                                                @csrf
+                                                <button onclick="print()" type="button" id="btn-print" class="btn btn-primary">Cetak</button>
+                                                <button onclick="simpan_semua()" type="button" id="btn-add-all" class="btn btn-success">Simpan</button>
+                                            </form>
+                                            @endif
+                                        </th>
                                     </tr>
                                 </tbody>
                             </table>
@@ -157,11 +165,49 @@
 @endsection
 @section('js-custom')
 <script type="text/javascript">
-    // @if(session('success'))
-    //     customAlert('Sukses !','{{ session("success") }}','success')
-    // @endif
 
-    $('#kode_barang').select2({placeholder : 'Ketik Kode / Nama Barang'})
+    const regex = /[^\d.]|\.(?=.*\.)/g;
+    const subst=``;
+
+    function print()
+    {
+        // console.log(elem)
+        document.getElementById('th-aksi').style.display = 'none';
+        document.getElementById('td-aksi').style.display = 'none';
+        document.getElementById('tf-aksi').style.display = 'none';
+        var elem = $('#preview-table').html();
+        document.getElementById('th-aksi').style.display = '';
+        document.getElementById('td-aksi').style.display = '';
+        document.getElementById('tf-aksi').style.display = '';
+        var mywindow = window.open('', 'PRINT', 'height=1100,width=900');
+
+        mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+        mywindow.document.write('</head>< >');
+        mywindow.document.write('<h3>Barang Masuk</h3>');
+        mywindow.document.write('<table border="1" style="width: 100%;border-collapse: collapse;">' + elem  + '</table>');
+        mywindow.document.write('<p>Dicetak Oleh : {{ auth()->user()->name }} </p>');
+        mywindow.document.write('<p>Dicetak Tanggal : {{ date("d F Y") }} </p>');
+        mywindow.document.write('</body></html>');
+        
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+
+        
+        return true;
+    }
+
+    $('#jumlah').keyup(function(){
+        const str=this.value;
+        const result = str.replace(regex, subst);
+        this.value=result;
+    });
+    
+    $('#kode_barang').select2({placeholder : 'Ketik Kode / Nama Barang'});
 
     $('#btn-simpan').on('click',function(){
         var form = $('#form_add');
@@ -237,6 +283,27 @@
         $('#jumlah').val('')
         $('#harga').val('')
     })
+
+    function simpan_semua(){
+        Swal.fire({
+            title: "Yakin Menyimpan data?",
+            text: "Pastikan data sudah sesuai !",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "ya!",
+            cancelButtonText: "Tidak, Batalkan!",
+            reverseButtons: true
+        }).then(function(result) {
+            if (result.value) {
+               $('#form-add-all').submit();
+            }
+        });
+    }
+    
+    $('#form-add-all').on('submit',function(){
+        myBlock();
+    });
+
 
     function hapus(obj){
         let id = $(obj).attr('id');

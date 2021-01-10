@@ -12,26 +12,13 @@
                 <div class="card-body">
                     <div class="form-group row">
                         <div class="col-4">
-                            {{-- <label for="">Jenis Filter</label> <br>
-                            <input type="radio" value="day" checked name="jenis"> Filter Tanggal &nbsp; <input type="radio" value="bulan" name="jenis"> Filter Bulan & Tahun<br>
-                            <br>
-                            <div style="display: " id="filter_day">
-                                <label for="">Pilih Tanggal</label>
-                                <div class="input-group input-group-solid date" id="tanggal" data-target-input="nearest">
-                                    <input type="text" value="{{ date('m/d/Y') }}" class="form-control form-control-solid datetimepicker-input" placeholder="Select date & time" data-target="#tanggal"/>
-                                    <div class="input-group-append" data-target="#tanggal" data-toggle="datetimepicker">
-                                        <span class="input-group-text">
-                                            <i class="ki ki-calendar"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div> --}}
+                            
                             <div style="display: " id="filter_bulan">
                                 <div class="row">
                                     <div class="col-8">
                                         <label for="">Pilih Bulan</label>
-                                        <div class="input-group input-group-solid date" id="tanggal" data-target-input="nearest">
-                                            <select name="" id="" class="form-control">
+                                        <div class="input-group input-group-solid date" data-target-input="nearest">
+                                            <select name="" id="input_tanggal" class="form-control">
                                                 <option value="01" {{ date('m') == '01' ? 'selected' : '' }}>Januari</option>
                                                 <option value="02" {{ date('m') == '02' ? 'selected' : '' }}>Februari</option>
                                                 <option value="03" {{ date('m') == '03' ? 'selected' : '' }}>Maret</option>
@@ -49,7 +36,7 @@
                                     </div>
                                     <div class="col-4">
                                         <label for="">Tahun</label>
-                                        <select name="" class="form-control form-control-solid" id="">
+                                        <select name="" class="form-control form-control-solid" id="input_tahun">
                                             <option value="2020" {{ date('Y') == '2020' ? 'selected' : '' }}>2020</option>
                                             <option value="2021" {{ date('Y') == '2021' ? 'selected' : '' }}>2021</option>
                                             <option value="2022" {{ date('Y') == '2022' ? 'selected' : '' }}>2022</option>
@@ -69,7 +56,7 @@
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap py-3">
                    <div class="card-title">
-                        Data Barang Masuk Bulan
+                        Data Barang Masuk Bulan &nbsp; <span id="title-tabel"></span>
                        
                    </div>
                    
@@ -88,32 +75,21 @@
                         <thead>
                             <tr>
                                 <th width="10px">No.</th>
+                                <th>Tanggal Masuk</th>
                                 <th>Kode Barang</th>
-                                <th>Nama Barang</th>
+                                <th>Nama Barang</th> 
+                                <th>Roll</th>
+                                <th>Jumlah (Kg)</th>
+                                <th>Dpp (Rp)</th>
+                                <th>Ppn (10%)</th>
+                                <th>Total (Rp)</th> 
+                                {{-- <th>Nama Barang</th>
                                 <th>Reoder Jika barang kurang dari (Rolls)</th>
-                                <th>Aksi</th>
+                                <th>Aksi</th> --}}
                             </tr>
                         </thead>
                         <tbody>
-                        {{-- @foreach ($barang as $key => $item)
-                        <tr>
-                            <td>{{ $key+1 }}</td>
-                            <td>{{ $item->kode_barang }}</td>
-                            <td>{{ $item->nama_barang }}</td>
-                            <td>{{ $item->reorder }}</td>
-                            <td nowrap="nowrap">
-                                <div class="dropdown dropdown-inline mr-4">
-                                    <button type="button" class="btn btn-light-primary btn-icon btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ki ki-bold-more-hor"></i>
-                                    </button>
-                                    <div class="dropdown-menu" style="">
-                                        <a class="dropdown-item" href="{{ route('barang.edit',$item->id) }}">Edit</a>
-                                        <a class="dropdown-item" onclick="hapusBarang(this)" id="{{ $item->id }}" href="javascript:void(0)">Hapus</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach --}}
+                            
                         </tbody>
                     </table>
                     <!--end: Datatable-->
@@ -130,11 +106,60 @@
 <script src="{{ asset('assets/backend') }} /plugins/custom/datatables/datatables.bundle.js"></script>
 
 <script>
-    $('#user_table').DataTable({
-        responsive: true,
+
+
+    let input_tanggal = $('#input_tanggal').find(':selected').val();
+    let input_tahun = $('#input_tahun').find(':selected').val();
+    let title_tanggal = $('#input_tanggal').find(':selected').html();
+
+    $('#title-tabel').html(' ' + title_tanggal + ' ' + input_tahun)
+
+    renderTable(input_tanggal, input_tahun);
+
+    $('#input_tanggal').on('change', function(){
+        input_tanggal = $(this).find(':selected').val();
+        $('#user_table').dataTable().fnDestroy();
+        renderTable(input_tanggal, input_tahun);
+        title_tanggal = $('#input_tanggal').find(':selected').html();
+        $('#title-tabel').html(' ' + title_tanggal + ' ' + input_tahun)
     })
-    @if(session('success'))
-        customAlert('Sukses !','{{ session("success") }}','success')
+
+    $('#input_tahun').on('change', function(){
+        input_tahun = $(this).find(':selected').val();
+        $('#user_table').dataTable().fnDestroy();
+        renderTable(input_tanggal, input_tahun);
+        $('#title-tabel').html(' ' + title_tanggal + ' ' + input_tahun)
+    })
+
+    function renderTable(bulan,tahun){
+        $('#user_table').DataTable({
+            processing: true,
+            serverSide: true,
+            "ajax": {
+                url : "{{ route('data.barang.masuk') }}",
+                type : 'get',
+                data : {
+                    tahun : input_tahun,
+                    bulan : input_tanggal
+                },
+            },
+            columns: [
+                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {data: 'tanggal', name: 'tanggal'},
+                {data: 'kode_barang', name: 'kode_barang'},
+                {data: 'nama_barang', name: 'nama_barang'},
+                {data: 'roll', name: 'roll'},
+                {data: 'kg_in', name: 'kg_in'},
+                {data: 'harga_in', name: 'harga_in'},
+                {data: 'ppn', name: 'ppn'},
+                {data: 'total', name: 'total'},
+            ]
+        })
+    }
+    
+
+    @if(session('msg'))
+        Swal.fire('Sukses!','{{ session("msg") }}','success');
     @endif
 
     var arrows;
@@ -202,11 +227,6 @@
                         })
                     }
                 })
-                // Swal.fire(
-                //     "Deleted!",
-                //     "Your file has been deleted.",
-                //     "success"
-                // )
             }
         });
     }

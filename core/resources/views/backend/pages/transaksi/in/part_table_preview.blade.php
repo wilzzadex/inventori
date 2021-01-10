@@ -1,4 +1,4 @@
-<table class="table table-bordered">
+<table class="table table-bordered" id="preview-table">
     <thead>
         <tr>
             <th>No</th>
@@ -9,7 +9,7 @@
             <th>Dpp (Rp)</th>
             <th>Ppn (10%)</th>
             <th>Total (Rp)</th>
-            <th>Aksi</th>
+            <th id="th-aksi">Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -38,7 +38,7 @@
             <td>{{ number_format($item->harga_in,2,',','.') }}</td>
             <td>{{ number_format($ppn,2,',','.') }}</td>
             <td>{{ number_format($item->harga_in + $ppn,2,',','.') }}</td>
-            <td>
+            <td id="td-aksi">
                 <button type="button" id="{{ $item->id }}" onclick="hapus(this)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                 <button type="button" id="{{ $item->id }}" onclick="edit(this)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
             </td>
@@ -51,7 +51,15 @@
             <th>{{ number_format($total_harga,2,',','.') }}</th>
             <th>{{ number_format($total_harga_ppn,2,',','.') }}</th>
             <th>{{ number_format($total_total,2,',','.') }}</th>
-            <th></th>
+            <th id="tf-aksi">
+                @if (count($barang) > 0)
+                <form action="{{ route('in.store.all') }}" id="form-add-all" method="POST">
+                    @csrf
+                    <button onclick="print()" type="button" id="btn-print" class="btn btn-primary">Cetak</button>
+                    <button onclick="simpan_semua()" type="button" id="btn-add-all" class="btn btn-success">Simpan</button>
+                </form>
+                @endif
+            </th>
         </tr>
     </tbody>
 </table>
