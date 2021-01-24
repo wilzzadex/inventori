@@ -13,7 +13,7 @@
 		<!--begin::Global Theme Styles(used by all pages)-->
 		<link href="{{ asset('assets/backend/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('assets/backend/plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet" type="text/css" />
-		<link href="{{ asset('assets/backend/') }} /css/style.bundle.css" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('assets/backend/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<!--end::Global Theme Styles-->
 		<!--begin::Layout Themes(used by all pages)-->
 		<link href="{{ asset('assets/backend/css/themes/layout/header/base/light.css') }} " rel="stylesheet" type="text/css" />
