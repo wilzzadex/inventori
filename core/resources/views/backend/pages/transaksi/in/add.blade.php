@@ -83,6 +83,13 @@
                             <h5 class="card-title">Preview Barang Masuk</h5>
                         </div>
                         {{-- <div class="alert alert-warning">Pastikan Data Sudah Sesuai sebelum disimpan !</div> --}}
+                        {{-- <div class="container">
+                            <div class="form-group">
+                                <label>Suplier</label>
+                                <input type="text" class="form-control" onkeyup="$('#input_suplier').val(this.val)" name="suplier" id="suplier" style="width: 30%">
+                            </div>
+                        </div> --}}
+                       
                         <div class="card-body" id="render_table">
                             <table class="table table-bordered" id="preview-table">
                                 <thead>
@@ -139,11 +146,11 @@
                                         <th>{{ number_format($total_total,2,',','.') }}</th>
                                         <th id="tf-aksi">
                                             @if (count($barang_masuk) > 0)
-                                            <form action="{{ route('in.store.all') }}" id="form-add-all" method="POST">
-                                                @csrf
+                                           
+                                                {{-- <input type="text" id="input_suplier"> --}}
                                                 <button onclick="print()" type="button" id="btn-print" class="btn btn-primary">Cetak</button>
-                                                <button onclick="simpan_semua()" type="button" id="btn-add-all" class="btn btn-success">Simpan</button>
-                                            </form>
+                                                <button data-toggle="modal" data-target="#exampleModal" type="button" class="btn btn-success">Simpan</button>
+                                            
                                             @endif
                                         </th>
                                     </tr>
@@ -162,6 +169,31 @@
 <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     
 </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Pastikan Data Sudah sesuai</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="{{ route('in.store.all') }}" id="form-add-all" method="POST">
+                @csrf
+
+                <div class="form-group">
+                    <label for="">Suplier</label>
+                    <input type="text" name="suplier" class="form-control" required>
+                </div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </form>
+        </div>
+       
+      </div>
+    </div>
+  </div>
 @endsection
 @section('js-custom')
 <script type="text/javascript">
@@ -182,7 +214,7 @@
         var mywindow = window.open('', 'PRINT', 'height=1100,width=900');
 
         mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-        mywindow.document.write('</head>< >');
+        mywindow.document.write('</head></head>');
         mywindow.document.write('<h3>Barang Masuk</h3>');
         mywindow.document.write('<table border="1" style="width: 100%;border-collapse: collapse;">' + elem  + '</table>');
         mywindow.document.write('<p>Dicetak Oleh : {{ auth()->user()->name }} </p>');

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\Barang_masuk;
-use App\Models\Barang_Keluar;
+use App\Models\Barang_keluar;
 use App\Models\History_barang_masuk;
 use App\Models\History_barang_keluar;
 use App\Exports\OnHandExport;
@@ -146,5 +146,32 @@ class LaporanController extends Controller
 
        
 
+    }
+
+    public function datainHistori(Request $request)
+    {
+        $filter1 = $request->tahun . '-' . $request->bulan;
+        $query = History_barang_masuk::where('tanggal_transaksi','like','%' . $filter1 . '%')->orderBy('id','DESC')->get();
+        return Datatables::of($query)
+        ->addIndexColumn()
+        ->addColumn('aksi',function($query){
+            return '<a target="_blank" href="'.route('print.masuk',$query->kode).'" class="btn btn-warning">Cetak Kontrabon</a>';
+        })
+        ->rawColumns(['aksi'])
+        ->addIndexColumn()
+        ->make(true);
+    }
+    public function dataoutHistori(Request $request)
+    {
+        $filter1 = $request->tahun . '-' . $request->bulan;
+        $query = History_barang_keluar::where('tanggal_transaksi','like','%' . $filter1 . '%')->orderBy('id','DESC')->get();
+        return Datatables::of($query)
+        ->addIndexColumn()
+        ->addColumn('aksi',function($query){
+            return '<a target="_blank" href="'.route('print.out',$query->kode).'" class="btn btn-warning">Cetak</a>';
+        })
+        ->rawColumns(['aksi'])
+        ->addIndexColumn()
+        ->make(true);
     }
 }

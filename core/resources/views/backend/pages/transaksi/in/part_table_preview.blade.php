@@ -39,6 +39,7 @@
             <td>{{ number_format($ppn,2,',','.') }}</td>
             <td>{{ number_format($item->harga_in + $ppn,2,',','.') }}</td>
             <td id="td-aksi">
+                {{-- <input type="text" id="input_suplier"> --}}
                 <button type="button" id="{{ $item->id }}" onclick="hapus(this)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                 <button type="button" id="{{ $item->id }}" onclick="edit(this)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
             </td>
@@ -53,11 +54,8 @@
             <th>{{ number_format($total_total,2,',','.') }}</th>
             <th id="tf-aksi">
                 @if (count($barang) > 0)
-                <form action="{{ route('in.store.all') }}" id="form-add-all" method="POST">
-                    @csrf
-                    <button onclick="print()" type="button" id="btn-print" class="btn btn-primary">Cetak</button>
-                    <button onclick="simpan_semua()" type="button" id="btn-add-all" class="btn btn-success">Simpan</button>
-                </form>
+                <button onclick="print()" type="button" id="btn-print" class="btn btn-primary">Cetak</button>
+                <button data-toggle="modal" data-target="#exampleModal" type="button" class="btn btn-success">Simpan</button>
                 @endif
             </th>
         </tr>

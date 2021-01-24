@@ -194,10 +194,12 @@ class TransaksiController extends Controller
 
     public function inStoreAll(Request $request)
     {
+        // dd($request->all());
         $kode = 'IN-' . str_random(5);
         $histori = new History_barang_masuk();
         $histori->kode = $kode;
         $histori->user_id = auth()->user()->id;
+        $histori->suplier = $request->suplier;
         $histori->tanggal_transaksi = date('Y-m-d');
         $histori->save();
 
@@ -210,9 +212,10 @@ class TransaksiController extends Controller
 
     public function OutStoreAll(Request $request)
     {
-        $kode = 'Out-' . str_random(5);
+        $kode = 'TRN-' . str_random(5);
         $histori = new History_barang_keluar();
         $histori->kode = $kode;
+        $histori->pembeli = $request->suplier;
         $histori->user_id = auth()->user()->id;
         $histori->tanggal_transaksi = date('Y-m-d');
         $histori->save();
@@ -227,7 +230,7 @@ class TransaksiController extends Controller
     public function dataBarangMasuk(Request $request)
     {
         $filter1 = $request->tahun . '-' . $request->bulan;
-        $query = Barang_masuk::where('tanggal','like','%' . $filter1 . '%')->get();
+        $query = Barang_masuk::where('tanggal','like','%' . $filter1 . '%')->orderBy('id','DESC')->get();
         // dd($request->all());
         return Datatables::of($query)
         ->addIndexColumn()
@@ -259,7 +262,7 @@ class TransaksiController extends Controller
     public function dataBarangKeluar(Request $request)
     {
         $filter1 = $request->tahun . '-' . $request->bulan;
-        $query = Barang_keluar::where('tanggal','like','%' . $filter1 . '%')->get();
+        $query = Barang_keluar::where('tanggal','like','%' . $filter1 . '%')->orderBy('id','DESC')->get();
         // dd($request->all());
         return Datatables::of($query)
         ->addIndexColumn()
@@ -269,14 +272,6 @@ class TransaksiController extends Controller
         ->addColumn('roll', function($query){
             $roll = $query->kg_in/25;
             return ceil($roll);
-        })
-        ->addColumn('ppn', function($query){
-            $ppn = $query->harga_in * (10/100);
-            return  number_format($ppn,2,',','.');
-        })
-        ->addColumn('total', function($query){
-            $ppn = $query->harga_in * (10/100);
-            return  number_format($query->harga_in+$ppn,2,',','.');
         })
         ->editColumn('harga_in', function($query){
             return number_format($query->harga_in,2,',','.');
@@ -290,11 +285,28 @@ class TransaksiController extends Controller
 
     public function inHistori()
     {
-        return view('backend.pages.histori.in');
+        $detail_barang = Barang_masuk::all();
+        $data['detail_barang'] = $detail_barang;
+        return view('backend.pages.histori.in',$data);
     }
     public function outHistori()
     {
         return view('backend.pages.histori.out');
+    }
+
+    public function printIn($kode)
+    {
+        $detail_barang = Barang_masuk::where('kode_barang_masuk',$kode)->get();
+        $data['detail_barang'] = $detail_barang;
+        // dd($data);
+        return view('backend.pages.histori.print_in',$data);
+    }
+    public function printOut($kode)
+    {
+        $detail_barang = Barang_keluar::where('kode_barang_keluar',$kode)->get();
+        $data['detail_barang'] = $detail_barang;
+        // dd($data);
+        return view('backend.pages.histori.print_out',$data);
     }
 
 }

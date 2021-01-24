@@ -11,5 +11,6 @@ class History_barang_masuk extends Model
         'kode',
         'user_id',
         'tanggal_transaksi',
+        'suplier',
     ];
 }

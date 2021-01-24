@@ -84,8 +84,8 @@
                                 <th>Nama Barang</th> 
                                 <th>Roll</th>
                                 <th>Jumlah (Kg)</th>
-                                <th>Dpp (Rp)</th>
-                                <th>Ppn (10%)</th>
+                                {{-- <th>Dpp (Rp)</th>
+                                <th>Ppn (10%)</th> --}}
                                 <th>Total (Rp)</th> 
                                 {{-- <th>Nama Barang</th>
                                 <th>Reoder Jika barang kurang dari (Rolls)</th>
@@ -105,6 +105,7 @@
     </div>
     <!--end::Entry-->
 </div>
+
 @endsection
 @section('js-custom')
 <script src="{{ asset('assets/backend/plugins/custom/datatables/datatables.bundle.js') }}"></script>
@@ -155,8 +156,8 @@
                 {data: 'roll', name: 'roll'},
                 {data: 'kg_in', name: 'kg_in'},
                 {data: 'harga_in', name: 'harga_in'},
-                {data: 'ppn', name: 'ppn'},
-                {data: 'total', name: 'total'},
+                // {data: 'ppn', name: 'ppn'},
+                // {data: 'total', name: 'total'},
             ]
         })
     }

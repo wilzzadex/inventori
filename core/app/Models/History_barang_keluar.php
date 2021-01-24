@@ -11,5 +11,6 @@ class History_barang_keluar extends Model
         'kode',
         'user_id',
         'tanggal_transaksi',
+        'pembeli',
     ];
 }

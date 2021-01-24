@@ -74,7 +74,11 @@ Route::group(['middleware' => 'auth'], function(){
 
         Route::prefix('histori')->group(function(){
             Route::get('in', ['as' => 'histori.masuk', 'uses' => 'TransaksiController@inHistori']);
+            Route::get('data', ['as' => 'data.histori.masuk', 'uses' => 'LaporanController@datainHistori']);
             Route::get('out', ['as' => 'histori.keluar', 'uses' => 'TransaksiController@outHistori']);
+            Route::get('print/{kode}', ['as' => 'print.masuk', 'uses' => 'TransaksiController@printIn']);
+            Route::get('printout/{kode}', ['as' => 'print.out', 'uses' => 'TransaksiController@printOut']);
+            Route::get('dataout', ['as' => 'data.histori.out', 'uses' => 'LaporanController@dataoutHistori']);
             Route::post('excel', ['as' => 'onhand.excel', 'uses' => 'LaporanController@excelOnhand']);
         });
 

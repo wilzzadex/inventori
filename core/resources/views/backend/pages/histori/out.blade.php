@@ -78,34 +78,7 @@
                            
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1.</td>
-                                <td>08 Januari 2021</td>
-                                <td>TRN-23455</td>
-                                <td>Nayla</td>
-                                <td><button class="btn btn-warning">Cetak Nota</button></td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>09 Januari 2021</td>
-                                <td>TRN-14555</td>
-                                <td>Samuel</td>
-                                <td><button class="btn btn-warning">Cetak Nota</button></td>
-                            </tr>
-                            <tr>
-                                <td>3.</td>
-                                <td>10 Januari 2021</td>
-                                <td>TRN-22334</td>
-                                <td>Arief</td>
-                                <td><button class="btn btn-warning">Cetak Nota</button></td>
-                            </tr>
-                            <tr>
-                                <td>3.</td>
-                                <td>11 Januari 2021</td>
-                                <td>TRN-22334</td>
-                                <td>Alfin</td>
-                                <td><button class="btn btn-warning">Cetak Nota</button></td>
-                            </tr>
+                        
                         </tbody>
                     </table>
                     <!--end: Datatable-->
@@ -149,27 +122,24 @@
 
     function renderTable(bulan,tahun){
         $('#user_table').DataTable({
-            // processing: true,
-            // serverSide: true,
-            // "ajax": {
-            //     url : "{{ route('data.barang.masuk') }}",
-            //     type : 'get',
-            //     data : {
-            //         tahun : input_tahun,
-            //         bulan : input_tanggal
-            //     },
-            // },
-            // columns: [
-            //     {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            //     {data: 'tanggal', name: 'tanggal'},
-            //     {data: 'kode_barang', name: 'kode_barang'},
-            //     {data: 'nama_barang', name: 'nama_barang'},
-            //     {data: 'roll', name: 'roll'},
-            //     {data: 'kg_in', name: 'kg_in'},
-            //     {data: 'harga_in', name: 'harga_in'},
-            //     {data: 'ppn', name: 'ppn'},
-            //     {data: 'total', name: 'total'},
-            // ]
+            processing: true,
+            serverSide: true,
+            "ajax": {
+                url : "{{ route('data.histori.out') }}",
+                type : 'get',
+                data : {
+                    tahun : input_tahun,
+                    bulan : input_tanggal
+                },
+            },
+            columns: [
+                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {data: 'tanggal_transaksi', name: 'tanggal_transaksi'},
+                {data: 'kode', name: 'kode'},
+                {data: 'pembeli', name: 'pembeli'},
+                {data: 'aksi', name: 'aksi'},
+               
+            ]
         })
     }
     

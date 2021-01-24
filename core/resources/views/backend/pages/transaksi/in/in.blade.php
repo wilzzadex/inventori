@@ -75,7 +75,9 @@
                 </div>
                 <div class="card-body">
                     <!--begin: Datatable-->
-                    
+                    {{-- <div class="form-group">
+                        <label>Suplier</label>
+                    </div> --}}
                     <table class="table table-bordered" id="user_table">
                         <thead>
                             <tr>
@@ -88,9 +90,7 @@
                                 <th>Dpp (Rp)</th>
                                 <th>Ppn (10%)</th>
                                 <th>Total (Rp)</th> 
-                                {{-- <th>Nama Barang</th>
-                                <th>Reoder Jika barang kurang dari (Rolls)</th>
-                                <th>Aksi</th> --}}
+
                             </tr>
                         </thead>
                         <tbody>

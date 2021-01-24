@@ -71,6 +71,7 @@
                             <tr>
                                 <th width="10px">No.</th>
                                 <th>Tanggal Masuk</th>
+                                {{-- <th></th> --}}
                                 <th>No Faktur</th>
                                 <th>Suplier</th> 
                                 <th>Aksi</th> 
@@ -78,7 +79,7 @@
                            
                         </thead>
                         <tbody>
-                            <tr>
+                            {{-- <tr>
                                 <td>1.</td>
                                 <td>08 Januari 2021</td>
                                 <td>INV-23455</td>
@@ -98,7 +99,7 @@
                                 <td>INV-22334</td>
                                 <td>PT. TES TIGA</td>
                                 <td><button class="btn btn-warning">Cetak Kontrabon</button></td>
-                            </tr>
+                            </tr> --}}
                         </tbody>
                     </table>
                     <!--end: Datatable-->
@@ -110,12 +111,39 @@
     </div>
     <!--end::Entry-->
 </div>
+
 @endsection
 @section('js-custom')
 <script src="{{ asset('assets/backend/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 
 <script>
+    function print()
+    {
+        // console.log(elem)
+       
+        var elem_head = $('#preview-table-head').html();
+        
+        var mywindow = window.open('', 'PRINT', 'height=1100,width=900');
 
+        mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+        mywindow.document.write('</head></head>');
+        mywindow.document.write('<h3>Barang Masuk</h3>');
+        mywindow.document.write('<table border="1" style="width: 100%;border-collapse: collapse;">' + elem  + '</table>');
+        mywindow.document.write('<p>Dicetak Oleh : {{ auth()->user()->name }} </p>');
+        mywindow.document.write('<p>Dicetak Tanggal : {{ date("d F Y") }} </p>');
+        mywindow.document.write('</body></html>');
+        
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+
+        
+        return true;
+    }
 
     let input_tanggal = $('#input_tanggal').find(':selected').val();
     let input_tahun = $('#input_tahun').find(':selected').val();
@@ -142,27 +170,24 @@
 
     function renderTable(bulan,tahun){
         $('#user_table').DataTable({
-            // processing: true,
-            // serverSide: true,
-            // "ajax": {
-            //     url : "{{ route('data.barang.masuk') }}",
-            //     type : 'get',
-            //     data : {
-            //         tahun : input_tahun,
-            //         bulan : input_tanggal
-            //     },
-            // },
-            // columns: [
-            //     {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            //     {data: 'tanggal', name: 'tanggal'},
-            //     {data: 'kode_barang', name: 'kode_barang'},
-            //     {data: 'nama_barang', name: 'nama_barang'},
-            //     {data: 'roll', name: 'roll'},
-            //     {data: 'kg_in', name: 'kg_in'},
-            //     {data: 'harga_in', name: 'harga_in'},
-            //     {data: 'ppn', name: 'ppn'},
-            //     {data: 'total', name: 'total'},
-            // ]
+            processing: true,
+            serverSide: true,
+            "ajax": {
+                url : "{{ route('data.histori.masuk') }}",
+                type : 'get',
+                data : {
+                    tahun : input_tahun,
+                    bulan : input_tanggal
+                },
+            },
+            columns: [
+                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {data: 'tanggal_transaksi', name: 'tanggal_transaksi'},
+                {data: 'kode', name: 'kode'},
+                {data: 'suplier', name: 'suplier'},
+                {data: 'aksi', name: 'aksi'},
+               
+            ]
         })
     }
     
