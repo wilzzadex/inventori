@@ -3,7 +3,7 @@
 namespace App\Exports;
 use App\Models\Barang;
 use App\Models\Barang_masuk;
-use App\Models\Barang_Keluar;
+use App\Models\Barang_keluar;
 use App\Models\History_barang_masuk;
 use App\Models\History_barang_keluar;
 use Maatwebsite\Excel\Concerns\FromCollection;
