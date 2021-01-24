@@ -86,11 +86,11 @@ class OnHandExport implements FromCollection, WithHeadings, ShouldAutoSize, With
             $row = [];
             $row['kode_barang'] = $barang->kode_barang;
             $row['nama_barang'] = $barang->nama_barang;
-            $row['start_in'] = $start_in == '' ? 0 : $start_in;
-            $row['in_kg'] = $in  == '' ? 0 : $in;
-            $row['out_kg'] = $out  == '' ? 0 : $out;
-            $row['ending_kg'] = $ending_kg  == '' ? 0 : $ending_kg;
-            $row['ending_rol'] = ceil($ending_rol  == '' ? 0 : $ending_rol);
+            $row['start_in'] = $start_in == '' ? '-' : $start_in;
+            $row['in_kg'] = $in  == '' ? '-' : $in;
+            $row['out_kg'] = $out  == '' ? '-' : $out;
+            $row['ending_kg'] = $ending_kg  == '' ? '-' : $ending_kg;
+            $row['ending_rol'] = ceil($ending_rol  == '' ? '-' : $ending_rol);
             $row['status'] = $status;
             $onhand[] = $row;
         }

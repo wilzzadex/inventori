@@ -1,6 +1,6 @@
 @extends('backend.master')
 @section('breadcumb')
-    Barang Masuk (In)
+  Histori Barang Keluar (Out)
 @endsection
 
 @section('content')
@@ -56,21 +56,11 @@
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap py-3">
                    <div class="card-title">
-                        Data Barang Masuk Bulan &nbsp; <span id="title-tabel"></span>
+                        Data Histori Barang Keluar Bulan &nbsp; <span id="title-tabel"></span>
                        
                    </div>
                    
-                    <div class="card-toolbar">
-                        <a href="{{ route('in.add') }}" class="btn btn-primary font-weight-bolder">
-                        <span class="svg-icon svg-icon-md">
-                           <i class="fas fa-plus"></i>
-                        </span>Tambah</a>
-                        <a href="{{ route('in.add') }}" class="btn btn-success font-weight-bolder">
-                            <span class="svg-icon svg-icon-md">
-                              
-                            </span>Export Excel</a>
-                        <!--end::Button-->
-                    </div>
+                 
                   
                 </div>
                 <div class="card-body">
@@ -81,20 +71,41 @@
                             <tr>
                                 <th width="10px">No.</th>
                                 <th>Tanggal Masuk</th>
-                                <th>Kode Barang</th>
-                                <th>Nama Barang</th> 
-                                <th>Roll</th>
-                                <th>Jumlah (Kg)</th>
-                                <th>Dpp (Rp)</th>
-                                <th>Ppn (10%)</th>
-                                <th>Total (Rp)</th> 
-                                {{-- <th>Nama Barang</th>
-                                <th>Reoder Jika barang kurang dari (Rolls)</th>
-                                <th>Aksi</th> --}}
+                                <th>No Transaksi</th>
+                                <th>Pembeli</th> 
+                                <th>Aksi</th> 
                             </tr>
+                           
                         </thead>
                         <tbody>
-                            
+                            <tr>
+                                <td>1.</td>
+                                <td>08 Januari 2021</td>
+                                <td>TRN-23455</td>
+                                <td>Nayla</td>
+                                <td><button class="btn btn-warning">Cetak Nota</button></td>
+                            </tr>
+                            <tr>
+                                <td>2.</td>
+                                <td>09 Januari 2021</td>
+                                <td>TRN-14555</td>
+                                <td>Samuel</td>
+                                <td><button class="btn btn-warning">Cetak Nota</button></td>
+                            </tr>
+                            <tr>
+                                <td>3.</td>
+                                <td>10 Januari 2021</td>
+                                <td>TRN-22334</td>
+                                <td>Arief</td>
+                                <td><button class="btn btn-warning">Cetak Nota</button></td>
+                            </tr>
+                            <tr>
+                                <td>3.</td>
+                                <td>11 Januari 2021</td>
+                                <td>TRN-22334</td>
+                                <td>Alfin</td>
+                                <td><button class="btn btn-warning">Cetak Nota</button></td>
+                            </tr>
                         </tbody>
                     </table>
                     <!--end: Datatable-->
@@ -138,27 +149,27 @@
 
     function renderTable(bulan,tahun){
         $('#user_table').DataTable({
-            processing: true,
-            serverSide: true,
-            "ajax": {
-                url : "{{ route('data.barang.masuk') }}",
-                type : 'get',
-                data : {
-                    tahun : input_tahun,
-                    bulan : input_tanggal
-                },
-            },
-            columns: [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'tanggal', name: 'tanggal'},
-                {data: 'kode_barang', name: 'kode_barang'},
-                {data: 'nama_barang', name: 'nama_barang'},
-                {data: 'roll', name: 'roll'},
-                {data: 'kg_in', name: 'kg_in'},
-                {data: 'harga_in', name: 'harga_in'},
-                {data: 'ppn', name: 'ppn'},
-                {data: 'total', name: 'total'},
-            ]
+            // processing: true,
+            // serverSide: true,
+            // "ajax": {
+            //     url : "{{ route('data.barang.masuk') }}",
+            //     type : 'get',
+            //     data : {
+            //         tahun : input_tahun,
+            //         bulan : input_tanggal
+            //     },
+            // },
+            // columns: [
+            //     {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            //     {data: 'tanggal', name: 'tanggal'},
+            //     {data: 'kode_barang', name: 'kode_barang'},
+            //     {data: 'nama_barang', name: 'nama_barang'},
+            //     {data: 'roll', name: 'roll'},
+            //     {data: 'kg_in', name: 'kg_in'},
+            //     {data: 'harga_in', name: 'harga_in'},
+            //     {data: 'ppn', name: 'ppn'},
+            //     {data: 'total', name: 'total'},
+            // ]
         })
     }
     

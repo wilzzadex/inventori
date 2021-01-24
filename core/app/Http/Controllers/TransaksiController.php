@@ -288,5 +288,13 @@ class TransaksiController extends Controller
         ->make(true);
     }
 
+    public function inHistori()
+    {
+        return view('backend.pages.histori.in');
+    }
+    public function outHistori()
+    {
+        return view('backend.pages.histori.out');
+    }
 
 }

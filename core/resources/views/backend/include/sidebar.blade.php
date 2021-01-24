@@ -78,6 +78,26 @@
                 <h4 class="menu-text">Laporan</h4>
                 <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
             </li>
+            <li class="menu-item {{ Request::is('admin/histori/in*') ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                <a href="{{ route('histori.masuk') }}" class="menu-link">
+                    <span class="svg-icon menu-icon">
+                        <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
+                        <i class="fas fa-dolly-flatbed"></i>
+                        <!--end::Svg Icon-->
+                    </span>
+                    <span class="menu-text">Histori Barang Masuk</span>
+                </a>
+            </li>
+            <li class="menu-item {{ Request::is('admin/histori/out*') ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                <a href="{{ route('histori.keluar') }}" class="menu-link">
+                    <span class="svg-icon menu-icon">
+                        <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
+                        <i class="fas fa-dolly-flatbed"></i>
+                        <!--end::Svg Icon-->
+                    </span>
+                    <span class="menu-text">Histori Barang Keluar</span>
+                </a>
+            </li>
             <li class="menu-item {{ Request::is('admin/on-hand*') ? 'menu-item-active' : '' }}" aria-haspopup="true">
                 <a href="{{ route('onhand') }}" class="menu-link">
                     <span class="svg-icon menu-icon">
