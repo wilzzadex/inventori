@@ -65,10 +65,10 @@
                         <span class="svg-icon svg-icon-md">
                            <i class="fas fa-plus"></i>
                         </span>Tambah</a>
-                        <a href="{{ route('in.add') }}" class="btn btn-success font-weight-bolder">
+                        {{-- <a href="{{ route('in.add') }}" class="btn btn-success font-weight-bolder">
                             <span class="svg-icon svg-icon-md">
                               
-                            </span>Export Excel</a>
+                            </span>Export Excel</a> --}}
                         <!--end::Button-->
                     </div>
                   
