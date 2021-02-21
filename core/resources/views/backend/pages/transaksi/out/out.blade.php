@@ -61,10 +61,12 @@
                    </div>
                    
                     <div class="card-toolbar">
+                        @if (auth()->user()->role != 'Admin Keuangan')
                         <a href="{{ route('out.add') }}" class="btn btn-primary font-weight-bolder">
                         <span class="svg-icon svg-icon-md">
                            <i class="fas fa-plus"></i>
                         </span>Tambah</a>
+                        @endif
                         {{-- <a href="{{ route('in.add') }}" class="btn btn-success font-weight-bolder">
                             <span class="svg-icon svg-icon-md">
                               
